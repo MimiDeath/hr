@@ -11,7 +11,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, roc_curve, roc_auc_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
-from dtreeviz.trees import model
 from streamlit_option_menu import option_menu
 
 
@@ -332,32 +331,6 @@ def app(df, current_dir: Path):
         ## Визуализация дерева решений
         """
     )
-
-    viz = model(
-        tree_clf,
-        X_train=X_train, y_train=y_train,
-        target_name="Attrition Rate",
-        feature_names=X_train.columns.to_list(),
-    )
-    orientation = st.radio("Выберите ориентацию дерева решений", ("Горизонтальная", "Вертикальная"))
-
-    if orientation == "Горизонтальная":
-        st.image(viz.view(orientation='LR').svg(), use_column_width=True)
-    else:
-        st.image(viz.view().svg(), use_column_width=True)
-
-    st.subheader("Выберите данные для визуализации")
-
-    selected_data_index = st.selectbox("Индекс данных", list(range(len(X_test))))
-    st.write("Выбранная строка:")
-    st.write(df.iloc[[selected_data_index]])
-
-    orientation = st.radio("Выберите ориентацию визуализации", ("Вертикальная", "Горизонтальная"))
-
-    if orientation == "Горизонтальная":
-        st.image(viz.view(orientation='LR', x=X_test.iloc[selected_data_index]).svg(), use_column_width=True)
-    else:
-        st.image(viz.view(x=X_test.iloc[selected_data_index]).svg(), use_column_width=True)
 
     print_model_adequacy_section(current_dir)
 
